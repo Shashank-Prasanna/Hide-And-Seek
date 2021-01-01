@@ -1,5 +1,5 @@
-var playerCount = 0,
-	playerCountRef;
+var playerCount = 0;
+var playerCountRef;
 var gameStateRef;
 var gameState = 'Lobby';
 var player1Sprite = {role: undefined, name: 'foo1'};
