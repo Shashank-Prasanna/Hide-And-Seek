@@ -101,7 +101,7 @@ class Game {
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player2Sprite.x = player1Sprite.x - 4;
+					player2Sprite.x = player2Sprite.x - 4;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
