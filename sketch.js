@@ -6,7 +6,7 @@ var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 
 var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, winner: undefined};
 var form, game, player;
 var distance;
-var p1Ref, p2ref;
+var p1Ref, p2ref, p1RoleRef, p2RoleRef;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
 var wall11,
