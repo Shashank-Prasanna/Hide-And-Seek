@@ -25,6 +25,35 @@ class Game {
 				GameState: gameState,
 			});
 		}
+		distance = int(dist(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y));
+		database.ref('Players').update({
+			distance: distance,
+		});
+
+		if (distance <= 200) {
+			if (form.player === 'Player 1') {
+				player2Sprite.visible = true;
+				player1Sprite.visible = true;
+			} else {
+				player1Sprite.visible = true;
+				player2Sprite.visible = true;
+			}
+		} else {
+			if (form.player === 'Player 1') {
+				player2Sprite.visible = false;
+				player1Sprite.visible = true;
+			} else {
+				player1Sprite.visible = false;
+				player2Sprite.visible = true;
+			}
+		}
+
+		if (player1Sprite.isTouching(player2Sprite)) {
+			if (player1Sprite.role === 'hider') {
+				player2Sprite.winner = true;
+				player1Sprite.winner = false;
+			}
+		}
 	}
 
 	getFromDatabase() {
@@ -180,6 +209,10 @@ class Game {
 				}
 			}
 		}
+		player1Sprite.x = constrain(player1Sprite.x, 10, 990);
+		player1Sprite.y = constrain(player1Sprite.y, 10, 990);
+		player2Sprite.x = constrain(player2Sprite.x, 10, 990);
+		player2Sprite.y = constrain(player2Sprite.y, 10, 990);
 
 		player.update(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y);
 	}

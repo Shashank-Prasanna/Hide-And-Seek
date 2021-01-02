@@ -2,9 +2,11 @@ var playerCount = 0;
 var playerCountRef;
 var gameStateRef;
 var gameState = 'Lobby';
-var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 0};
-var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0};
+var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 0, winner: undefined};
+var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, winner: undefined};
 var form, game, player;
+var distance;
+var p1Ref, p2ref;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
 var wall11,
@@ -59,6 +61,8 @@ function setup() {
 	player2Sprite = createSprite(980, 980, 30, 30);
 	player2Sprite.shapeColor = '#0000FF';
 
+	distance = int(dist(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y));
+
 	wall1 = createSprite(80, 40, 30, 150);
 	wall2 = createSprite(140, 40, 150, 30);
 	wall3 = createSprite(80, 190, 200, 30);
@@ -106,8 +110,10 @@ function setup() {
 	database.ref('/').update({
 		GameState: 'Lobby',
 		Players: {
+			distance: distance,
 			Player1: {
 				name: 'Foo1',
+				winner: 'foo',
 				position: {
 					x: 20,
 					y: 20,
@@ -117,6 +123,7 @@ function setup() {
 
 			Player2: {
 				name: 'foo2',
+				winner: 'foo',
 				position: {
 					x: 980,
 					y: 980,
@@ -132,6 +139,20 @@ function setup() {
 	question.push(createSprite(150, 750, 20, 20));
 	question.push(createSprite(950, 700, 20, 20));
 	console.log(question);
+
+	p1Ref = database.ref('Players/Player1/position');
+	p1Ref.on('value', (data) => {
+		player1Sprite.x = data.val().x;
+		player1Sprite.y = data.val().y;
+		console.log(data.val());
+	});
+
+	p2Ref = database.ref('Players/Player2/position');
+	p2Ref.on('value', (data) => {
+		player2Sprite.x = data.val().x;
+		player2Sprite.y = data.val().y;
+		console.log(data.val());
+	});
 
 	for (var i = 0; i < question.length; i++) {
 		question[i].addImage(questionImg);
@@ -175,8 +196,4 @@ function draw() {
 			i++;
 		}
 	}
-	player1Sprite.x = constrain(player1Sprite.x, 10, 990);
-	player1Sprite.y = constrain(player1Sprite.y, 10, 990);
-	player2Sprite.x = constrain(player2Sprite.x, 10, 990);
-	player2Sprite.y = constrain(player2Sprite.y, 10, 990);
 }
