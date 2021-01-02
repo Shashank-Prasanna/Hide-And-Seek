@@ -2,8 +2,8 @@ var playerCount = 0;
 var playerCountRef;
 var gameStateRef;
 var gameState = 'Lobby';
-var player1Sprite = {role: undefined, name: 'foo1'};
-var player2Sprite = {role: undefined, name: 'foo2'};
+var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 0};
+var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0};
 var form, game, player;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
@@ -34,6 +34,22 @@ var wall11,
 	wall35;
 
 var database = firebase.database();
+
+var slimeImg, flashlightImg, shoeImg, lightbulbImg, questionImg;
+var badPowerupSnd, goodPowerupSnd;
+var slime, flashlight, shoe, lightbulb;
+var question = [];
+
+function preload() {
+	slimeImg = loadImage('img/icons8-slime-50.png');
+	flashlightImg = loadImage('img/icons8-flashlight-50.png');
+	shoeImg = loadImage('img/icons8-running-shoe-50.png');
+	lightbulbImg = loadImage('img/icons8-light-50.png');
+	questionImg = loadImage('img/icons8-question-mark-64.png');
+
+	badPowerupSnd = loadSound('sound/badPowerup.wav');
+	goodPowerupSnd = loadSound('sound/goodPowerup.wav');
+}
 
 function setup() {
 	createCanvas(1000, 1000);
@@ -78,14 +94,9 @@ function setup() {
 	wall33 = createSprite(600, 70, 30, 70);
 	wall34 = createSprite(940, 400, 30, 150);
 	wall35 = createSprite(790, 270, 150, 30);
-
-	if (random(0, 100) >= 50) {
-		player1Sprite.role = 'hider';
-		player2Sprite.role = 'seeker';
-	} else {
-		player1Sprite.role = 'seeker';
-		player2Sprite.role = 'hider';
-	}
+	player1Sprite.powerupBad = 0;
+	player1Sprite.powerupGood = 0;
+	console.log(player1Sprite.powerupBad);
 
 	form = new Form();
 	game = new Game();
@@ -101,6 +112,7 @@ function setup() {
 					x: 20,
 					y: 20,
 				},
+				role: 'foo',
 			},
 
 			Player2: {
@@ -109,13 +121,62 @@ function setup() {
 					x: 980,
 					y: 980,
 				},
+				role: 'foo',
 			},
 			PlayerCount: 0,
 		},
 	});
+
+	question.push(createSprite(240, 40, 20, 20));
+	question.push(createSprite(900, 200, 20, 20));
+	question.push(createSprite(150, 750, 20, 20));
+	question.push(createSprite(950, 700, 20, 20));
+	console.log(question);
+
+	for (var i = 0; i < question.length; i++) {
+		question[i].addImage(questionImg);
+	}
 }
 
 function draw() {
 	game.display();
 	game.play();
+
+	for (var i = 0; i < question.length; i++) {
+		if (player1Sprite.isTouching(question[i]) && question[i].visible === true) {
+			question[i].visible = false;
+			var rand = random(0, 100);
+			if (rand >= 65) {
+				player1Sprite.powerupBad += 1;
+				badPowerupSnd.play();
+			} else {
+				player1Sprite.powerupGood += 1;
+				goodPowerupSnd.play();
+			}
+
+			console.log(player1Sprite.powerupBad);
+			i++;
+		}
+	}
+
+	for (var i = 0; i < question.length; i++) {
+		if (player2Sprite.isTouching(question[i]) && question[i].visible === true) {
+			question[i].visible = false;
+			var rand = random(0, 100);
+			if (rand >= 65) {
+				player2Sprite.powerupBad += 1;
+				badPowerupSnd.play();
+			} else {
+				player2Sprite.powerupGood += 1;
+				goodPowerupSnd.play();
+			}
+
+			console.log(player2Sprite.powerupBad);
+			i++;
+		}
+	}
+	player1Sprite.x = constrain(player1Sprite.x, 10, 990);
+	player1Sprite.y = constrain(player1Sprite.y, 10, 990);
+	player2Sprite.x = constrain(player2Sprite.x, 10, 990);
+	player2Sprite.y = constrain(player2Sprite.y, 10, 990);
 }

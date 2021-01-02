@@ -37,6 +37,29 @@ class Form {
 				this.hide();
 			}
 			playerCount++;
+			if (this.player === 'Player 1') {
+				if (random(0, 100) >= 50) {
+					player1Sprite.role = 'hider';
+					player2Sprite.role = 'seeker';
+				} else {
+					player1Sprite.role = 'seeker';
+					player2Sprite.role = 'hider';
+				}
+				database.ref('Players/Player1').update({
+					role: player1Sprite.role,
+				});
+
+				database.ref('Players/Player2').update({
+					role: player2Sprite.role,
+				});
+			}
+
+			if (this.player === 'Player 2') {
+				var roleRef = database.ref('Players/Player2/role');
+				roleRef.on('value', (data) => {
+					player2Sprite.role = data.val();
+				});
+			}
 
 			database.ref('Players').update({
 				PlayerCount: playerCount,
