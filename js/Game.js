@@ -52,7 +52,17 @@ class Game {
 			if (player1Sprite.role === 'hider') {
 				player2Sprite.winner = true;
 				player1Sprite.winner = false;
+			} else {
+				player2Sprite.winner = false;
+				player1Sprite.winner = true;
 			}
+			database.ref('Players/Player1').update({
+				winner: player1Sprite.winner,
+			});
+
+			database.ref('Players/Player2').update({
+				winner: player2Sprite.winner,
+			});
 		}
 	}
 

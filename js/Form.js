@@ -55,9 +55,10 @@ class Form {
 			}
 
 			if (this.player === 'Player 2') {
-				var roleRef = database.ref('Players/Player2/role');
+				var roleRef = database.ref('Players');
 				roleRef.on('value', (data) => {
-					player2Sprite.role = data.val();
+					player2Sprite.role = data.val().Player2.role;
+					player1Sprite.role = data.val().Player1.role;
 				});
 			}
 
