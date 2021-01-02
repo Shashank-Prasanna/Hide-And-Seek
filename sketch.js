@@ -7,6 +7,10 @@ var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 
 var form, game, player;
 var distance;
 var p1Ref, p2ref, p1RoleRef, p2RoleRef;
+const SLIMECODE = 927;
+const FLASHLIGHTCODE = 427;
+const SHOECODE = 827;
+const LIGHTCODE = 227;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
 var wall11,
