@@ -18,6 +18,29 @@ class Game {
 
 	play() {
 		this.move();
+		this.time();
+
+		if (form.player === 'Player 1') {
+			for (var i = 0; i <= player1Sprite.powerupBad; i++) {
+				image(slimeImg, 1010, 1000 - i * 50);
+			}
+
+			for (var i = 0; i <= player1Sprite.powerupGood; i++) {
+				image(slimeImg, -30, 1000 - i * 50);
+			}
+			console.log('powerup');
+		}
+
+		if (form.player === 'Player 2') {
+			for (var i = 0; i <= player1Sprite.powerupBad; i++) {
+				image(slimeImg, 1000, 1000 - i * 50);
+			}
+
+			for (var i = 0; i <= player1Sprite.powerupGood; i++) {
+				image(slimeImg, -30, 1000 - i * 50);
+			}
+			console.log('powerup');
+		}
 
 		if (playerCount === 2 && gameState === 'Lobby') {
 			gameState = 'Play';
@@ -76,6 +99,31 @@ class Game {
 		gameStateRef.on('value', (data) => {
 			gameState = data.val();
 		});
+	}
+
+	time() {
+		if (timer.endMin === undefined && gameState === 'Play') {
+			if (form.player === 'Player 1') {
+				timer.endMin = date.getMinutes() + 5;
+				timer.endSec = date.getSeconds();
+				database.ref('/').update({
+					endTime: {
+						seconds: timer.endSec,
+						minutes: timer.endMin,
+					},
+				});
+			}
+		}
+
+		if (playerCount === 2) {
+			timer.nowMin = date.getMinutes();
+			timer.nowSec = date.getSeconds();
+			var timeLeft = {mins: timer.endMin - timer.nowMin, secs: timer.endSec - timer.nowSec};
+			timer.timeLeft = timeLeft.mins;
+			timer.timeLeft += ':';
+			timer.timeLeft += timeLeft.secs;
+		}
+		console.log(timer.timeLeft);
 	}
 
 	move() {
@@ -219,11 +267,23 @@ class Game {
 				}
 			}
 		}
-		player1Sprite.x = constrain(player1Sprite.x, 10, 990);
-		player1Sprite.y = constrain(player1Sprite.y, 10, 990);
-		player2Sprite.x = constrain(player2Sprite.x, 10, 990);
-		player2Sprite.y = constrain(player2Sprite.y, 10, 990);
+		player1Sprite.x = constrain(player1Sprite.x, 10, 1000);
+		player1Sprite.y = constrain(player1Sprite.y, 10, 950);
+		player2Sprite.x = constrain(player2Sprite.x, 10, 1000);
+		player2Sprite.y = constrain(player2Sprite.y, 10, 950);
 
 		player.update(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y);
+
+		/*var d1 = new Date(); //get current time
+    var seconds = d1.getMinutes() * 60 + d1.getSeconds();
+
+     var fiveMin = 60 * 5; //five minutes is 300 seconds!
+    var timeleft = fiveMin - seconds % fiveMin; // let's say now is 01:30, then current seconds is 60+30 = 90. And 90%300 = 90, finally 300-90 = 210. That's the time left!
+    var result = parseInt(timeleft / 60) + ':' + timeleft % 60; //formart seconds back into mm:ss 
+    console.log(result);
+  
+    var timer1 = createInput(result);
+  
+  timer1.position(500,500);*/
 	}
 }

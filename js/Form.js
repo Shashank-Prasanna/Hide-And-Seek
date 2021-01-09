@@ -5,6 +5,7 @@ class Form {
 		this.input = createInput('Name');
 		this.button = createButton('Join');
 		this.player;
+		this.reset_btn = createButton('RESET');
 	}
 
 	display() {
@@ -14,6 +15,7 @@ class Form {
 		this.input.position(displayWidth / 2 - 100, 200);
 
 		this.button.position(displayWidth / 2 - 100, 400);
+		this.reset_btn.position(10, 10);
 
 		this.button.mousePressed(() => {
 			var name = this.input.value();
@@ -66,8 +68,37 @@ class Form {
 				PlayerCount: playerCount,
 			});
 		});
-	}
 
+		this.reset_btn.mousePressed(() => {
+			database.ref('/').update({
+				GameState: 'Lobby',
+				Players: {
+					distance: distance,
+					Player1: {
+						name: 'Foo1',
+						winner: 'foo',
+						position: {
+							x: 20,
+							y: 20,
+						},
+						role: 'foo',
+					},
+
+					Player2: {
+						name: 'foo2',
+						winner: 'foo',
+						position: {
+							x: 980,
+							y: 980,
+						},
+						role: 'foo',
+					},
+					PlayerCount: 0,
+				},
+			});
+			location.reload();
+		});
+	}
 	hide() {
 		this.header.hide();
 		this.input.hide();

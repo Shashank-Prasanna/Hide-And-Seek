@@ -7,10 +7,13 @@ var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 
 var form, game, player;
 var distance;
 var p1Ref, p2ref, p1RoleRef, p2RoleRef;
+var date = new Date();
+var timer = {endMin: undefined, endSec: undefined, nowMin: undefined, nowSec: undefined, timeLeft: '5:00'};
 const SLIMECODE = 927;
 const FLASHLIGHTCODE = 427;
 const SHOECODE = 827;
 const LIGHTCODE = 227;
+var reset_btn;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
 var wall11,
@@ -58,11 +61,11 @@ function preload() {
 }
 
 function setup() {
-	createCanvas(1000, 1000);
+	createCanvas(1000, 970);
 
 	player1Sprite = createSprite(20, 20, 30, 30);
 	player1Sprite.shapeColor = '#FF0000';
-	player2Sprite = createSprite(980, 980, 30, 30);
+	player2Sprite = createSprite(980, 950, 30, 30);
 	player2Sprite.shapeColor = '#0000FF';
 
 	distance = int(dist(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y));
@@ -111,33 +114,6 @@ function setup() {
 
 	game.getFromDatabase();
 
-	database.ref('/').update({
-		GameState: 'Lobby',
-		Players: {
-			distance: distance,
-			Player1: {
-				name: 'Foo1',
-				winner: 'foo',
-				position: {
-					x: 20,
-					y: 20,
-				},
-				role: 'foo',
-			},
-
-			Player2: {
-				name: 'foo2',
-				winner: 'foo',
-				position: {
-					x: 980,
-					y: 980,
-				},
-				role: 'foo',
-			},
-			PlayerCount: 0,
-		},
-	});
-
 	question.push(createSprite(240, 40, 20, 20));
 	question.push(createSprite(900, 200, 20, 20));
 	question.push(createSprite(150, 750, 20, 20));
@@ -148,14 +124,12 @@ function setup() {
 	p1Ref.on('value', (data) => {
 		player1Sprite.x = data.val().x;
 		player1Sprite.y = data.val().y;
-		console.log(data.val());
 	});
 
 	p2Ref = database.ref('Players/Player2/position');
 	p2Ref.on('value', (data) => {
 		player2Sprite.x = data.val().x;
 		player2Sprite.y = data.val().y;
-		console.log(data.val());
 	});
 
 	for (var i = 0; i < question.length; i++) {
