@@ -2,17 +2,13 @@ var playerCount = 0;
 var playerCountRef;
 var gameStateRef;
 var gameState = 'Lobby';
-var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 0, winner: undefined};
-var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, winner: undefined};
-var form, game, player;
+var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 0, speed: undefined, winner: undefined};
+var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, speed: undefined, winner: undefined};
+var form, game, player, badPowerupCanvas, goodPowerupCanvas;
 var distance;
 var p1Ref, p2ref, p1RoleRef, p2RoleRef;
 var date = new Date();
 var timer = {endMin: undefined, endSec: undefined, nowMin: undefined, nowSec: undefined, timeLeft: '5:00'};
-const SLIMECODE = 927;
-const FLASHLIGHTCODE = 427;
-const SHOECODE = 827;
-const LIGHTCODE = 227;
 var reset_btn;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
@@ -63,6 +59,14 @@ function preload() {
 function setup() {
 	createCanvas(1000, 970);
 
+	badPowerupCanvas = createGraphics(55, 180);
+	badPowerupCanvas.show();
+	badPowerupCanvas.position(-55, 790);
+
+	goodPowerupCanvas = createGraphics(55, 180);
+	goodPowerupCanvas.show();
+	goodPowerupCanvas.position(1000, 790);
+
 	player1Sprite = createSprite(20, 20, 30, 30);
 	player1Sprite.shapeColor = '#FF0000';
 	player2Sprite = createSprite(980, 950, 30, 30);
@@ -107,6 +111,9 @@ function setup() {
 	wall35 = createSprite(790, 270, 150, 30);
 	player1Sprite.powerupBad = 0;
 	player1Sprite.powerupGood = 0;
+	player2Sprite.powerupBad = 0;
+	player2Sprite.powerupGood = 0;
+
 	console.log(player1Sprite.powerupBad);
 
 	form = new Form();
@@ -138,23 +145,27 @@ function setup() {
 }
 
 function draw() {
+	goodPowerupCanvas.background('black');
+	badPowerupCanvas.background('black');
 	game.display();
 	game.play();
 
-	for (var i = 0; i < question.length; i++) {
-		if (player1Sprite.isTouching(question[i]) && question[i].visible === true) {
-			question[i].visible = false;
-			var rand = random(0, 100);
-			if (rand >= 65) {
-				player1Sprite.powerupBad += 1;
-				badPowerupSnd.play();
-			} else {
-				player1Sprite.powerupGood += 1;
-				goodPowerupSnd.play();
-			}
+	if (form.player === 'Player 1') {
+		for (var i = 0; i < question.length; i++) {
+			if (player1Sprite.isTouching(question[i]) && question[i].visible === true) {
+				question[i].visible = false;
+				var rand = random(0, 100);
+				if (rand >= 65) {
+					player1Sprite.powerupBad += 1;
+					badPowerupSnd.play();
+				} else {
+					player1Sprite.powerupGood += 1;
+					goodPowerupSnd.play();
+				}
 
-			console.log(player1Sprite.powerupBad);
-			i++;
+				console.log(player1Sprite.powerupBad);
+				i++;
+			}
 		}
 	}
 

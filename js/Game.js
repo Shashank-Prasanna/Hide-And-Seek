@@ -21,25 +21,43 @@ class Game {
 		this.time();
 
 		if (form.player === 'Player 1') {
-			for (var i = 0; i <= player1Sprite.powerupBad; i++) {
-				image(slimeImg, 1010, 1000 - i * 50);
-			}
+			if (player1Sprite.role === 'hider') {
+				for (var i = 0; i <= player1Sprite.powerupBad; i++) {
+					badPowerupCanvas.image(lightbulbImg, 0, 180 - i * 50);
+				}
 
-			for (var i = 0; i <= player1Sprite.powerupGood; i++) {
-				image(slimeImg, -30, 1000 - i * 50);
+				for (var i = 0; i <= player1Sprite.powerupGood; i++) {
+					goodPowerupCanvas.image(shoeImg, 0, 180 - i * 50);
+				}
+			} else {
+				for (var i = 0; i <= player1Sprite.powerupBad; i++) {
+					badPowerupCanvas.image(slimeImg, 0, 180 - i * 50);
+				}
+
+				for (var i = 0; i <= player1Sprite.powerupGood; i++) {
+					goodPowerupCanvas.image(flashlightImg, 0, 180 - i * 50);
+				}
 			}
-			console.log('powerup');
 		}
 
 		if (form.player === 'Player 2') {
-			for (var i = 0; i <= player1Sprite.powerupBad; i++) {
-				image(slimeImg, 1000, 1000 - i * 50);
-			}
+			if (player2Sprite.role === 'hider') {
+				for (var i = 0; i <= player2Sprite.powerupBad; i++) {
+					badPowerupCanvas.image(lightbulbImg, 0, 180 - i * 50);
+				}
 
-			for (var i = 0; i <= player1Sprite.powerupGood; i++) {
-				image(slimeImg, -30, 1000 - i * 50);
+				for (var i = 0; i <= player2Sprite.powerupGood; i++) {
+					goodPowerupCanvas.image(shoeImg, 0, 180 - i * 50);
+				}
+			} else {
+				for (var i = 0; i <= player2Sprite.powerupBad; i++) {
+					badPowerupCanvas.image(slimeImg, 0, 180 - i * 50);
+				}
+
+				for (var i = 0; i <= player2Sprite.powerupGood; i++) {
+					goodPowerupCanvas.image(flashlightImg, 0, 180 - i * 50);
+				}
 			}
-			console.log('powerup');
 		}
 
 		if (playerCount === 2 && gameState === 'Lobby') {
@@ -279,7 +297,7 @@ class Game {
 
      var fiveMin = 60 * 5; //five minutes is 300 seconds!
     var timeleft = fiveMin - seconds % fiveMin; // let's say now is 01:30, then current seconds is 60+30 = 90. And 90%300 = 90, finally 300-90 = 210. That's the time left!
-    var result = parseInt(timeleft / 60) + ':' + timeleft % 60; //formart seconds back into mm:ss 
+    var result = parseInt(timeleft / 60) + ':' + timeleft % 60; //format seconds back into mm:ss 
     console.log(result);
   
     var timer1 = createInput(result);
