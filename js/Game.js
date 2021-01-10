@@ -11,6 +11,8 @@ class Game {
 			form.hide();
 			form.greeting.hide();
 			background(0);
+			goodPowerupCanvas.background('white');
+			badPowerupCanvas.background('white');
 			this.move();
 			drawSprites();
 		}
@@ -219,69 +221,69 @@ class Game {
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
-					player1Sprite.y = player1Sprite.y - 2;
+					player1Sprite.y = player1Sprite.y - speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player1Sprite.y = player1Sprite.y + 2;
+					player1Sprite.y = player1Sprite.y + speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player1Sprite.x = player1Sprite.x - 2;
+					player1Sprite.x = player1Sprite.x - speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player1Sprite.x = player1Sprite.x + 2;
+					player1Sprite.x = player1Sprite.x + speed;
 				}
 			} else if (player1Sprite.role === 'seeker') {
 				if (keyDown(UP_ARROW)) {
-					player1Sprite.y = player1Sprite.y - 4;
+					player1Sprite.y = player1Sprite.y - speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player1Sprite.y = player1Sprite.y + 4;
+					player1Sprite.y = player1Sprite.y + speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player1Sprite.x = player1Sprite.x - 4;
+					player1Sprite.x = player1Sprite.x - speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player1Sprite.x = player1Sprite.x + 4;
+					player1Sprite.x = player1Sprite.x + speed;
 				}
 			}
 		} else {
 			if (player2Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
-					player2Sprite.y = player2Sprite.y - 2;
+					player2Sprite.y = player2Sprite.y - speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player2Sprite.y = player2Sprite.y + 2;
+					player2Sprite.y = player2Sprite.y + speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player2Sprite.x = player2Sprite.x - 2;
+					player2Sprite.x = player2Sprite.x - speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player2Sprite.x = player2Sprite.x + 2;
+					player2Sprite.x = player2Sprite.x + speed;
 				}
 			} else if (player2Sprite.role === 'seeker') {
 				if (keyDown(UP_ARROW)) {
-					player2Sprite.y = player2Sprite.y - 4;
+					player2Sprite.y = player2Sprite.y - speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player2Sprite.y = player2Sprite.y + 4;
+					player2Sprite.y = player2Sprite.y + speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player2Sprite.x = player2Sprite.x - 4;
+					player2Sprite.x = player2Sprite.x - speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player2Sprite.x = player2Sprite.x + 4;
+					player2Sprite.x = player2Sprite.x + speed;
 				}
 			}
 		}

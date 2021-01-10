@@ -145,8 +145,6 @@ function setup() {
 }
 
 function draw() {
-	goodPowerupCanvas.background('black');
-	badPowerupCanvas.background('black');
 	game.display();
 	game.play();
 

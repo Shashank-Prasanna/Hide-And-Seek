@@ -43,9 +43,13 @@ class Form {
 				if (random(0, 100) >= 50) {
 					player1Sprite.role = 'hider';
 					player2Sprite.role = 'seeker';
+					player1Sprite.speed = 2;
+					player2Sprite.speed = 4;
 				} else {
 					player1Sprite.role = 'seeker';
 					player2Sprite.role = 'hider';
+					player1Sprite.speed = 4;
+					player2Sprite.speed = 2;
 				}
 				database.ref('Players/Player1').update({
 					role: player1Sprite.role,
