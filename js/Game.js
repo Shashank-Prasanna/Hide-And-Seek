@@ -22,10 +22,20 @@ class Game {
 		this.move();
 		this.time();
 
+		if (!(player2Sprite.speed > 1)) {
+			if (player2Sprite.role === 'hider') {
+				player1Sprite.speed = 4;
+				player2Sprite.speed = 2;
+			} else {
+				player1Sprite.speed = 2;
+				player2Sprite.speed = 4;
+			}
+		}
+
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				for (var i = 0; i <= player1Sprite.powerupBad; i++) {
-					badPowerupCanvas.image(lightbulbImg, 0, 180 - i * 50);
+					badPowerupCanvas.image(radarImg, 0, 180 - i * 50);
 				}
 
 				for (var i = 0; i <= player1Sprite.powerupGood; i++) {
@@ -143,7 +153,6 @@ class Game {
 			timer.timeLeft += ':';
 			timer.timeLeft += timeLeft.secs;
 		}
-		console.log(timer.timeLeft);
 	}
 
 	move() {
@@ -221,76 +230,76 @@ class Game {
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
-					player1Sprite.y = player1Sprite.y - speed;
+					player1Sprite.y = player1Sprite.y - player1Sprite.speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player1Sprite.y = player1Sprite.y + speed;
+					player1Sprite.y = player1Sprite.y + player1Sprite.speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player1Sprite.x = player1Sprite.x - speed;
+					player1Sprite.x = player1Sprite.x - player1Sprite.speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player1Sprite.x = player1Sprite.x + speed;
+					player1Sprite.x = player1Sprite.x + player1Sprite.speed;
 				}
 			} else if (player1Sprite.role === 'seeker') {
 				if (keyDown(UP_ARROW)) {
-					player1Sprite.y = player1Sprite.y - speed;
+					player1Sprite.y = player1Sprite.y - player1Sprite.speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player1Sprite.y = player1Sprite.y + speed;
+					player1Sprite.y = player1Sprite.y + player1Sprite.speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player1Sprite.x = player1Sprite.x - speed;
+					player1Sprite.x = player1Sprite.x - player1Sprite.speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player1Sprite.x = player1Sprite.x + speed;
+					player1Sprite.x = player1Sprite.x + player1Sprite.speed;
 				}
 			}
 		} else {
 			if (player2Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
-					player2Sprite.y = player2Sprite.y - speed;
+					player2Sprite.y = player2Sprite.y - player2Sprite.speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player2Sprite.y = player2Sprite.y + speed;
+					player2Sprite.y = player2Sprite.y + player2Sprite.speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player2Sprite.x = player2Sprite.x - speed;
+					player2Sprite.x = player2Sprite.x - player2Sprite.speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player2Sprite.x = player2Sprite.x + speed;
+					player2Sprite.x = player2Sprite.x + player2Sprite.speed;
 				}
 			} else if (player2Sprite.role === 'seeker') {
 				if (keyDown(UP_ARROW)) {
-					player2Sprite.y = player2Sprite.y - speed;
+					player2Sprite.y = player2Sprite.y - player2Sprite.speed;
 				}
 
 				if (keyDown(DOWN_ARROW)) {
-					player2Sprite.y = player2Sprite.y + speed;
+					player2Sprite.y = player2Sprite.y + player2Sprite.speed;
 				}
 
 				if (keyDown(LEFT_ARROW)) {
-					player2Sprite.x = player2Sprite.x - speed;
+					player2Sprite.x = player2Sprite.x - player2Sprite.speed;
 				}
 
 				if (keyDown(RIGHT_ARROW)) {
-					player2Sprite.x = player2Sprite.x + speed;
+					player2Sprite.x = player2Sprite.x + player2Sprite.speed;
 				}
 			}
 		}
 		player1Sprite.x = constrain(player1Sprite.x, 10, 1000);
 		player1Sprite.y = constrain(player1Sprite.y, 10, 950);
 		player2Sprite.x = constrain(player2Sprite.x, 10, 1000);
-		player2Sprite.y = constrain(player2Sprite.y, 10, 950);
+		player2Sprite.y = constrain(player2Sprite.y, 10, 952);
 
 		player.update(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y);
 

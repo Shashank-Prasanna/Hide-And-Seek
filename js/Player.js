@@ -29,4 +29,15 @@ class Player {
 			});
 		}
 	}
+
+	powerUp() {
+		if (form.player === 'Player 1') {
+			for (var i = 0; i < player1Sprite.powerupBad, i++; ) {
+				if (player1Sprite.role === 'hider') {
+				} else if (player1Sprite.role === 'seeker') {
+					player1Sprite.speed = 2;
+				}
+			}
+		}
+	}
 }
