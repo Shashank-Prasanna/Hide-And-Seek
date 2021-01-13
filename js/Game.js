@@ -13,14 +13,13 @@ class Game {
 			background(0);
 			goodPowerupCanvas.background('white');
 			badPowerupCanvas.background('white');
-			this.move();
 			drawSprites();
 		}
 	}
 
 	play() {
+		console.log(player2Sprite.role);
 		this.move();
-		this.time();
 
 		if (!(player2Sprite.speed > 1)) {
 			if (player2Sprite.role === 'hider') {
@@ -227,6 +226,7 @@ class Game {
 		player2Sprite.collide(wall33);
 		player2Sprite.collide(wall34);
 		player2Sprite.collide(wall35);
+		console.log(form.player);
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
@@ -262,7 +262,9 @@ class Game {
 				}
 			}
 		} else {
+			console.log('else');
 			if (player2Sprite.role === 'hider') {
+				console.log('hider');
 				if (keyDown(UP_ARROW)) {
 					player2Sprite.y = player2Sprite.y - player2Sprite.speed;
 				}
@@ -279,6 +281,7 @@ class Game {
 					player2Sprite.x = player2Sprite.x + player2Sprite.speed;
 				}
 			} else if (player2Sprite.role === 'seeker') {
+				console.log('seeker');
 				if (keyDown(UP_ARROW)) {
 					player2Sprite.y = player2Sprite.y - player2Sprite.speed;
 				}
@@ -299,7 +302,7 @@ class Game {
 		player1Sprite.x = constrain(player1Sprite.x, 10, 1000);
 		player1Sprite.y = constrain(player1Sprite.y, 10, 950);
 		player2Sprite.x = constrain(player2Sprite.x, 10, 1000);
-		player2Sprite.y = constrain(player2Sprite.y, 10, 952);
+		player2Sprite.y = constrain(player2Sprite.y, 10, 960);
 
 		player.update(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y);
 

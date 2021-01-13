@@ -11,7 +11,7 @@ class Player {
 			Player2: {
 				position: {
 					x: 980,
-					y: 980,
+					y: 950,
 				},
 			},
 		});
@@ -35,7 +35,7 @@ class Player {
 			for (var i = 0; i < player1Sprite.powerupBad, i++; ) {
 				if (player1Sprite.role === 'hider') {
 				} else if (player1Sprite.role === 'seeker') {
-					player1Sprite.speed = 2;
+					player1Sprite.speed = 4;
 				}
 			}
 		}

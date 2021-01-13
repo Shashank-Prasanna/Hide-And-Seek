@@ -6,7 +6,7 @@ var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 
 var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, speed: undefined, winner: undefined};
 var form, game, player, badPowerupCanvas, goodPowerupCanvas;
 var distance;
-var p1Ref, p2ref, p1RoleRef, p2RoleRef;
+var p1Ref, p2ref, p1RoleRef, p2RoleRef, roleRef;
 var date = new Date();
 var timer = {endMin: undefined, endSec: undefined, nowMin: undefined, nowSec: undefined, timeLeft: '5:00'};
 var reset_btn;
@@ -49,7 +49,7 @@ function preload() {
 	slimeImg = loadImage('img/icons8-slime-50.png');
 	flashlightImg = loadImage('img/icons8-flashlight-50.png');
 	shoeImg = loadImage('img/icons8-running-shoe-50.png');
-	radarImg = loadImage('img/icons8-light-50.png');
+	radarImg = loadImage('img/icons8-radar-50.png');
 	questionImg = loadImage('img/icons8-question-mark-64.png');
 
 	badPowerupSnd = loadSound('sound/badPowerup.wav');
@@ -145,6 +145,7 @@ function setup() {
 }
 
 function draw() {
+	console.log('draw');
 	game.display();
 	game.play();
 

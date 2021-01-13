@@ -43,13 +43,13 @@ class Form {
 				if (random(0, 100) >= 50) {
 					player1Sprite.role = 'hider';
 					player2Sprite.role = 'seeker';
-					player1Sprite.speed = 2;
-					player2Sprite.speed = 4;
+					player1Sprite.speed = 4;
+					player2Sprite.speed = 6;
 				} else {
 					player1Sprite.role = 'seeker';
 					player2Sprite.role = 'hider';
-					player1Sprite.speed = 4;
-					player2Sprite.speed = 2;
+					player1Sprite.speed = 6;
+					player2Sprite.speed = 4;
 				}
 				database.ref('Players/Player1').update({
 					role: player1Sprite.role,
@@ -61,7 +61,7 @@ class Form {
 			}
 
 			if (this.player === 'Player 2') {
-				var roleRef = database.ref('Players');
+				roleRef = database.ref('Players');
 				roleRef.on('value', (data) => {
 					player2Sprite.role = data.val().Player2.role;
 					player1Sprite.role = data.val().Player1.role;
@@ -93,7 +93,7 @@ class Form {
 						winner: 'foo',
 						position: {
 							x: 980,
-							y: 980,
+							y: 950,
 						},
 						role: 'foo',
 					},
