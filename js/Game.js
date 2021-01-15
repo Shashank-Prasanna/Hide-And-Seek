@@ -1,13 +1,19 @@
 class Game {
 	constructor() {
 		player = new Player();
+		this.timerText = createElement('h2', '5:00');
+		this.timerText.position(1500, 15);
 	}
 
 	display() {
 		if (gameState === 'Lobby') {
 			form.display();
+			timer.timeLeftMin = 5;
+			timer.timeLeftSec = 0;
+			console.log(timer.timeLeftMin + ':' + timer.timeLeftSec);
 		}
 		if (gameState === 'Play') {
+			this.timer();
 			form.hide();
 			form.greeting.hide();
 			background(0);
@@ -18,7 +24,6 @@ class Game {
 	}
 
 	play() {
-		console.log(player2Sprite.role);
 		this.move();
 
 		if (!(player2Sprite.speed > 1)) {
@@ -54,7 +59,7 @@ class Game {
 		if (form.player === 'Player 2') {
 			if (player2Sprite.role === 'hider') {
 				for (var i = 0; i <= player2Sprite.powerupBad; i++) {
-					badPowerupCanvas.image(lightbulbImg, 0, 180 - i * 50);
+					badPowerupCanvas.image(radarImg, 0, 180 - i * 50);
 				}
 
 				for (var i = 0; i <= player2Sprite.powerupGood; i++) {
@@ -130,27 +135,39 @@ class Game {
 		});
 	}
 
-	time() {
-		if (timer.endMin === undefined && gameState === 'Play') {
-			if (form.player === 'Player 1') {
-				timer.endMin = date.getMinutes() + 5;
-				timer.endSec = date.getSeconds();
-				database.ref('/').update({
-					endTime: {
-						seconds: timer.endSec,
-						minutes: timer.endMin,
-					},
-				});
+	timer() {
+		if (keyDown(75)) {
+			timer.timeLeftMin = 0;
+			timer.timeLeftSec = 5;
+		}
+		if (form.player === 'Player 1') {
+			if (timer.timeLeftMin + timer.timeLeftSec != 0)
+				if (frameCount % 30 === 0) {
+					timer.timeLeftSec--;
+				}
+			if (timer.timeLeftSec === -1) {
+				timer.timeLeftMin -= 1;
+				timer.timeLeftSec = 59;
+			}
+			console.log(timer.timeLeftMin + ':' + timer.timeLeftSec);
+			database.ref('timerVal').update({
+				mins: timer.timeLeftMin,
+				secs: timer.timeLeftSec,
+			});
+
+			if (timer.timeLeftSec <= 9) {
+				this.timerText.html(timer.timeLeftMin + ':' + '0' + timer.timeLeftSec);
+			} else {
+				this.timerText.html(timer.timeLeftMin + ':' + timer.timeLeftSec);
 			}
 		}
 
-		if (playerCount === 2) {
-			timer.nowMin = date.getMinutes();
-			timer.nowSec = date.getSeconds();
-			var timeLeft = {mins: timer.endMin - timer.nowMin, secs: timer.endSec - timer.nowSec};
-			timer.timeLeft = timeLeft.mins;
-			timer.timeLeft += ':';
-			timer.timeLeft += timeLeft.secs;
+		if (form.player === 'Player 2') {
+			if (timer.timeLeftSec <= 9) {
+				this.timerText.html(timer.timeLeftMin + ':' + '0' + timer.timeLeftSec);
+			} else {
+				this.timerText.html(timer.timeLeftMin + ':' + timer.timeLeftSec);
+			}
 		}
 	}
 
@@ -226,7 +243,6 @@ class Game {
 		player2Sprite.collide(wall33);
 		player2Sprite.collide(wall34);
 		player2Sprite.collide(wall35);
-		console.log(form.player);
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				if (keyDown(UP_ARROW)) {
@@ -305,17 +321,5 @@ class Game {
 		player2Sprite.y = constrain(player2Sprite.y, 10, 960);
 
 		player.update(player1Sprite.x, player1Sprite.y, player2Sprite.x, player2Sprite.y);
-
-		/*var d1 = new Date(); //get current time
-    var seconds = d1.getMinutes() * 60 + d1.getSeconds();
-
-     var fiveMin = 60 * 5; //five minutes is 300 seconds!
-    var timeleft = fiveMin - seconds % fiveMin; // let's say now is 01:30, then current seconds is 60+30 = 90. And 90%300 = 90, finally 300-90 = 210. That's the time left!
-    var result = parseInt(timeleft / 60) + ':' + timeleft % 60; //format seconds back into mm:ss 
-    console.log(result);
-  
-    var timer1 = createInput(result);
-  
-  timer1.position(500,500);*/
 	}
 }

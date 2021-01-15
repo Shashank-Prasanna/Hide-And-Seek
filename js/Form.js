@@ -40,7 +40,7 @@ class Form {
 			}
 			playerCount++;
 			if (this.player === 'Player 1') {
-				if (random(0, 100) >= 50) {
+				if (random(0, 100) > 50) {
 					player1Sprite.role = 'hider';
 					player2Sprite.role = 'seeker';
 					player1Sprite.speed = 4;
@@ -71,6 +71,16 @@ class Form {
 			database.ref('Players').update({
 				PlayerCount: playerCount,
 			});
+
+			if (form.player === 'Player 2') {
+				timerRef = database.ref('timerVal');
+				console.log(timerRef);
+				timerRef.on('value', (data) => {
+					timer.timeLeftMin = data.val().mins;
+					timer.timeLeftSec = data.val().secs;
+					console.log('UPDATED!');
+				});
+			}
 		});
 
 		this.reset_btn.mousePressed(() => {

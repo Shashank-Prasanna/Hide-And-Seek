@@ -6,9 +6,8 @@ var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 
 var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, speed: undefined, winner: undefined};
 var form, game, player, badPowerupCanvas, goodPowerupCanvas;
 var distance;
-var p1Ref, p2ref, p1RoleRef, p2RoleRef, roleRef;
-var date = new Date();
-var timer = {endMin: undefined, endSec: undefined, nowMin: undefined, nowSec: undefined, timeLeft: '5:00'};
+var p1Ref, p2ref, p1RoleRef, p2RoleRef, roleRef, timerRef;
+var timer = {timeLeftMin: undefined, timeLeftSec: undefined};
 var reset_btn;
 
 var wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10;
@@ -145,7 +144,6 @@ function setup() {
 }
 
 function draw() {
-	console.log('draw');
 	game.display();
 	game.play();
 
