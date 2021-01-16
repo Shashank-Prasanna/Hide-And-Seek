@@ -1,8 +1,12 @@
 class Game {
 	constructor() {
 		player = new Player();
+
 		this.timerText = createElement('h2', '5:00');
 		this.timerText.position(1500, 15);
+
+		this.roleText = createElement('h2', 'Role');
+		this.roleText.position(350, 15);
 	}
 
 	display() {
@@ -11,28 +15,46 @@ class Game {
 			timer.timeLeftMin = 5;
 			timer.timeLeftSec = 0;
 			console.log(timer.timeLeftMin + ':' + timer.timeLeftSec);
+			this.play();
 		}
 		if (gameState === 'Play') {
 			this.timer();
 			form.hide();
 			form.greeting.hide();
+			if (form.player === 'Player 1') {
+				this.roleText.html(player1Sprite.role);
+			} else {
+				this.roleText.html(player2Sprite.role);
+			}
 			background(0);
 			goodPowerupCanvas.background('white');
 			badPowerupCanvas.background('white');
 			drawSprites();
-			database.ref('Players/Player1').update({
-				role: player1Sprite.role,
-			});
+			if (form.player === 'Player 1') {
+				database.ref('Players/Player1').update({
+					role: player1Sprite.role,
+				});
 
-			database.ref('Players/Player2').update({
-				role: player2Sprite.role,
-			});
+				database.ref('Players/Player2').update({
+					role: player2Sprite.role,
+				});
+			}
+			this.play();
+		}
+
+		if (gameState === 'End') {
+			if (timer.timeLeftMin + timer.timeLeftSec === 0) {
+				this.timer();
+			} else {
+				winnerRef.once('value', (data) => {
+					this.winnerFind(data);
+				});
+			}
 		}
 	}
 
 	play() {
 		this.move();
-		player.powerUp();
 
 		if (!(player2Sprite.speed > 1)) {
 			if (player2Sprite.role === 'hider') {
@@ -129,6 +151,21 @@ class Game {
 				winner: player2Sprite.winner,
 			});
 		}
+
+		if (form.player === 'Player 1') {
+			if (player1Sprite.role === 'hider') {
+				player1Sprite.speed = 4;
+			} else {
+				player1Sprite.speed = 6;
+			}
+		} else if (form.player === 'Player 2') {
+			if (player2Sprite.role === 'hider') {
+				player2Sprite.speed = 4;
+			} else {
+				player2Sprite.speed = 6;
+			}
+		}
+		player.powerUp();
 	}
 
 	getFromDatabase() {
@@ -176,6 +213,58 @@ class Game {
 			} else {
 				this.timerText.html(timer.timeLeftMin + ':' + timer.timeLeftSec);
 			}
+		}
+
+		if (timer.timeLeftMin + timer.timeLeftSec === 0) {
+			textSize(40);
+			let p1Role, p2Role;
+			var winnerName;
+			var timerRoleRef = database.ref('Players');
+			timerRoleRef.once('value', (data) => {
+				p1Role = data.val().Player1.role;
+				p2Role = data.val().Player2.role;
+			});
+			if (p1Role === 'hider') {
+				var winnerNameRef = database.ref('Players/Player1/name');
+				gameState = 'End';
+				background('#FFFFFF');
+				winnerNameRef.once('value', (data) => {
+					winnerName = data.val();
+				});
+				text('Winner: ' + winnerName, 400, 200);
+			} else if (p2Role === 'hider') {
+				var winnerNameRef = database.ref('Players/Player2/name');
+				gameState = 'End';
+				background('#FFFFFF');
+				winnerNameRef.once('value', (data) => {
+					winnerName = data.val();
+				});
+				text('Winner: ' + winnerName, 400, 200);
+			}
+		}
+	}
+
+	winnerFind(data) {
+		var p1winner = data.val().Player1.winner;
+		var p2winner = data.val().Player2.winner;
+		var winnerName;
+		textSize(40);
+		if (p1winner === true) {
+			var winnerNameRef = database.ref('Players/Player1/name');
+			gameState = 'End';
+			background('#FFFFFF');
+			winnerNameRef.once('value', (data) => {
+				winnerName = data.val();
+			});
+			text('Winner: ' + winnerName, 400, 200);
+		} else if (p2winner === true) {
+			var winnerNameRef = database.ref('Players/Player2/name');
+			gameState = 'End';
+			background('#FFFFFF');
+			winnerNameRef.once('value', (data) => {
+				winnerName = data.val();
+			});
+			text('Winner: ' + winnerName, 400, 200);
 		}
 	}
 

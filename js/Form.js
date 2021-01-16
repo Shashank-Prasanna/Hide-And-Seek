@@ -109,6 +109,10 @@ class Form {
 					},
 					PlayerCount: 0,
 				},
+				timerVal: {
+					mins: 5,
+					secs: 0,
+				},
 			});
 			location.reload();
 		});

@@ -6,7 +6,7 @@ var player1Sprite = {role: undefined, name: 'foo1', powerupBad: 0, powerupGood: 
 var player2Sprite = {role: undefined, name: 'foo2', powerupBad: 0, powerupGood: 0, speed: undefined, winner: undefined};
 var form, game, player, badPowerupCanvas, goodPowerupCanvas;
 var distance;
-var p1Ref, p2ref, p1RoleRef, p2RoleRef, roleRef, timerRef;
+var p1Ref, p2ref, p1RoleRef, p2RoleRef, roleRef, timerRef, winnerRef;
 var timer = {timeLeftMin: undefined, timeLeftSec: undefined};
 var reset_btn;
 
@@ -141,11 +141,15 @@ function setup() {
 	for (var i = 0; i < question.length; i++) {
 		question[i].addImage(questionImg);
 	}
+
+	winnerRef = database.ref('Players');
+	winnerRef.on('value', (data) => {
+		game.winnerFind(data);
+	});
 }
 
 function draw() {
 	game.display();
-	game.play();
 
 	if (form.player === 'Player 1') {
 		for (var i = 0; i < question.length; i++) {
@@ -155,9 +159,11 @@ function draw() {
 				if (rand >= 65) {
 					player1Sprite.powerupBad += 1;
 					badPowerupSnd.play();
+					setTimeout(player.powerUpMinus, 10000, 'Player 1', 'Bad');
 				} else {
 					player1Sprite.powerupGood += 1;
 					goodPowerupSnd.play();
+					setTimeout(player.powerUpMinus, 10000, 'Player 1', 'Good');
 				}
 
 				console.log(player1Sprite.powerupBad);
@@ -173,9 +179,11 @@ function draw() {
 			if (rand >= 65) {
 				player2Sprite.powerupBad += 1;
 				badPowerupSnd.play();
+				setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Bad');
 			} else {
 				player2Sprite.powerupGood += 1;
 				goodPowerupSnd.play();
+				setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Good');
 			}
 
 			console.log(player2Sprite.powerupBad);
