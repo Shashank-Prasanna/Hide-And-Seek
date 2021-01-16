@@ -170,24 +170,24 @@ function draw() {
 				i++;
 			}
 		}
-	}
+	} else if (form.player === 'Player 2') {
+		for (var i = 0; i < question.length; i++) {
+			if (player2Sprite.isTouching(question[i]) && question[i].visible === true) {
+				question[i].visible = false;
+				var rand = random(0, 100);
+				if (rand >= 65) {
+					player2Sprite.powerupBad += 1;
+					badPowerupSnd.play();
+					setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Bad');
+				} else {
+					player2Sprite.powerupGood += 1;
+					goodPowerupSnd.play();
+					setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Good');
+				}
 
-	for (var i = 0; i < question.length; i++) {
-		if (player2Sprite.isTouching(question[i]) && question[i].visible === true) {
-			question[i].visible = false;
-			var rand = random(0, 100);
-			if (rand >= 65) {
-				player2Sprite.powerupBad += 1;
-				badPowerupSnd.play();
-				setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Bad');
-			} else {
-				player2Sprite.powerupGood += 1;
-				goodPowerupSnd.play();
-				setTimeout(player.powerUpMinus, 10000, 'Player 2', 'Good');
+				console.log(player2Sprite.powerupBad);
+				i++;
 			}
-
-			console.log(player2Sprite.powerupBad);
-			i++;
 		}
 	}
 }
