@@ -32,11 +32,19 @@ class Player {
 
 	powerUp() {
 		if (form.player === 'Player 1') {
-			for (var i = 0; i < player1Sprite.powerupBad, i++; ) {
+			for (var i = 0; i < player1Sprite.powerupBad; i++) {
 				if (player1Sprite.role === 'hider') {
-					console.log('foooooooooooo');
+					player1Sprite.visible = false;
 				} else if (player1Sprite.role === 'seeker') {
 					player1Sprite.speed = 4;
+				}
+			}
+
+			for (var i = 0; i < player1Sprite.powerupGood; i++) {
+				if (player1Sprite.role === 'hider') {
+					player1Sprite.speed = 6;
+				} else if (player1Sprite.role === 'seeker') {
+					player2Sprite.visible = true;
 				}
 			}
 		}

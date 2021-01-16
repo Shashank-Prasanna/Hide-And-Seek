@@ -20,11 +20,19 @@ class Game {
 			goodPowerupCanvas.background('white');
 			badPowerupCanvas.background('white');
 			drawSprites();
+			database.ref('Players/Player1').update({
+				role: player1Sprite.role,
+			});
+
+			database.ref('Players/Player2').update({
+				role: player2Sprite.role,
+			});
 		}
 	}
 
 	play() {
 		this.move();
+		player.powerUp();
 
 		if (!(player2Sprite.speed > 1)) {
 			if (player2Sprite.role === 'hider') {
@@ -39,7 +47,7 @@ class Game {
 		if (form.player === 'Player 1') {
 			if (player1Sprite.role === 'hider') {
 				for (var i = 0; i <= player1Sprite.powerupBad; i++) {
-					badPowerupCanvas.image(radarImg, 0, 180 - i * 50);
+					badPowerupCanvas.image(moonImg, 0, 180 - i * 50);
 				}
 
 				for (var i = 0; i <= player1Sprite.powerupGood; i++) {
@@ -59,7 +67,7 @@ class Game {
 		if (form.player === 'Player 2') {
 			if (player2Sprite.role === 'hider') {
 				for (var i = 0; i <= player2Sprite.powerupBad; i++) {
-					badPowerupCanvas.image(radarImg, 0, 180 - i * 50);
+					badPowerupCanvas.image(moonImg, 0, 180 - i * 50);
 				}
 
 				for (var i = 0; i <= player2Sprite.powerupGood; i++) {

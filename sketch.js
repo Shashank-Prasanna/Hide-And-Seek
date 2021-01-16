@@ -39,7 +39,7 @@ var wall11,
 
 var database = firebase.database();
 
-var slimeImg, flashlightImg, shoeImg, radarImg, questionImg;
+var slimeImg, flashlightImg, shoeImg, moonImg, questionImg;
 var badPowerupSnd, goodPowerupSnd;
 var slime, flashlight, shoe, lightbulb;
 var question = [];
@@ -48,7 +48,7 @@ function preload() {
 	slimeImg = loadImage('img/icons8-slime-50.png');
 	flashlightImg = loadImage('img/icons8-flashlight-50.png');
 	shoeImg = loadImage('img/icons8-running-shoe-50.png');
-	radarImg = loadImage('img/icons8-radar-50.png');
+	moonImg = loadImage('img/icons8-crescent-moon-50.png');
 	questionImg = loadImage('img/icons8-question-mark-64.png');
 
 	badPowerupSnd = loadSound('sound/badPowerup.wav');
